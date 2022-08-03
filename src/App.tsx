@@ -16,6 +16,15 @@ export type Product = {
   image: string;
   description: string;
 };
+export type ProductOnCart = {
+  id: number;
+  title: string;
+  price: number;
+  categoryId: number;
+  image: string;
+  description: string;
+  quantity: number;
+};
 export type Category = {
   id: number;
   name: string;
@@ -24,10 +33,51 @@ export type Category = {
 function App() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [onBasket, setOnBasket] = useState<Product[]>([]);
+  const [onBasket, setOnBasket] = useState<ProductOnCart[]>([]);
 
-  function addToBasket(product: Product) {
-    setOnBasket([...onBasket, product]);
+  function updateBasket(quantity: number, productId: number) {
+    if (quantity) {
+      let onBasketCopy: ProductOnCart[] = [...onBasket];
+      let matchProduct: ProductOnCart = onBasketCopy.find(
+        (prod) => prod.id === productId
+      )!;
+      matchProduct.quantity = quantity;
+      setOnBasket(onBasketCopy);
+    } else {
+      let onBasketCopy: ProductOnCart[] = [...onBasket];
+      let matchProduct: ProductOnCart = onBasketCopy.find(
+        (prod) => prod.id === productId
+      )!;
+      onBasketCopy[onBasketCopy.indexOf(matchProduct)] =
+        onBasketCopy[onBasketCopy.length - 1];
+      onBasketCopy.pop();
+      console.log(onBasketCopy);
+      setOnBasket(onBasketCopy);
+    }
+  }
+
+  function checkIfInBasket(product: ProductOnCart) {
+    for (let prod of onBasket) {
+      if (prod.id === product.id) return true;
+    }
+  }
+
+  function addToBasket(product: ProductOnCart) {
+    if (!checkIfInBasket(product)) {
+      product.quantity = 1;
+      setOnBasket([...onBasket, product]);
+    } else {
+      if (product.quantity < 4) {
+        let onBasketCopy: ProductOnCart[] = [...onBasket];
+        let matchProduct: ProductOnCart = onBasketCopy.find(
+          (prod) => prod.id === product.id
+        )!;
+        matchProduct.quantity++;
+        setOnBasket(onBasketCopy);
+      } else {
+        return false;
+      }
+    }
   }
 
   useEffect(() => {
@@ -62,7 +112,12 @@ function App() {
               path="/categories"
               element={<Categories categories={categories} />}
             />
-            <Route path="/basket" element={<Basket onBasket={onBasket} />} />
+            <Route
+              path="/basket"
+              element={
+                <Basket onBasket={onBasket} updateBasket={updateBasket} />
+              }
+            />
           </Routes>
         }
       </main>

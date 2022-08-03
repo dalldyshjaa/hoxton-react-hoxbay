@@ -1,10 +1,11 @@
-import { Product } from "../App";
+import { Product, ProductOnCart } from "../App";
 
 type Props = {
-  basketProduct: Product;
+  basketProduct: ProductOnCart;
+  updateBasket: Function;
 };
 
-export function BasketProduct({ basketProduct }: Props) {
+export function BasketProduct({ basketProduct, updateBasket }: Props) {
   return (
     <li>
       <article className="basket-container__item">
@@ -12,11 +13,24 @@ export function BasketProduct({ basketProduct }: Props) {
         <p>{basketProduct.title}</p>
         <p>
           Qty:
-          <select>
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
+          <select
+            onChange={(e) => {
+              updateBasket(
+                Number(e.target.options[e.target.selectedIndex].value),
+                basketProduct.id
+              );
+            }}
+          >
+            {[0, 1, 2, 3].map((number) => (
+              <option
+                key={number}
+                value={`${number}`}
+                selected={basketProduct.quantity === number}
+              >
+                {" "}
+                {number}
+              </option>
+            ))}
           </select>
         </p>
         <p>{`Item total: $${basketProduct.price.toFixed(2)}`}</p>
