@@ -3,9 +3,15 @@ import { Product, ProductOnCart } from "../App";
 type Props = {
   basketProduct: ProductOnCart;
   updateBasket: Function;
+  updateTotal: Function;
 };
 
-export function BasketProduct({ basketProduct, updateBasket }: Props) {
+export function BasketProduct({
+  basketProduct,
+  updateBasket,
+  updateTotal,
+}: Props) {
+  updateTotal(basketProduct.price * basketProduct.quantity);
   return (
     <li>
       <article className="basket-container__item">
@@ -33,7 +39,9 @@ export function BasketProduct({ basketProduct, updateBasket }: Props) {
             ))}
           </select>
         </p>
-        <p>{`Item total: $${basketProduct.price.toFixed(2)}`}</p>
+        <p>{`Item total: $${(
+          basketProduct.price * basketProduct.quantity
+        ).toFixed(2)}`}</p>
       </article>
     </li>
   );

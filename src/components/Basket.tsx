@@ -8,6 +8,9 @@ type Props = {
 
 export function Basket({ onBasket, updateBasket }: Props) {
   const [total, setTotal] = useState(0);
+  function updateTotal(number: number) {
+    setTotal(number);
+  }
   return (
     <section className="basket-container">
       <h2>Your Basket</h2>
@@ -17,6 +20,7 @@ export function Basket({ onBasket, updateBasket }: Props) {
             basketProduct={basketProduct}
             updateBasket={updateBasket}
             key={basketProduct.id}
+            updateTotal={updateTotal}
           />
         ))}
       </ul>
