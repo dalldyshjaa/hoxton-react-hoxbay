@@ -2,12 +2,9 @@ import { Product } from "../App";
 
 type Props = {
   basketProduct: Product;
-  setTotal: Function;
-  total: number;
 };
 
-export function BasketProduct({ basketProduct, setTotal, total }: Props) {
-  setTotal(total + basketProduct.price);
+export function BasketProduct({ basketProduct }: Props) {
   return (
     <li>
       <article className="basket-container__item">
@@ -22,7 +19,7 @@ export function BasketProduct({ basketProduct, setTotal, total }: Props) {
             <option value="3">3</option>
           </select>
         </p>
-        <p>Item total: £109.95</p>
+        <p>{`Item total: $${basketProduct.price.toFixed(2)}`}</p>
       </article>
     </li>
   );

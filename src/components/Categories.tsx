@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Category } from "../App";
 
 type Props = {
@@ -10,7 +11,7 @@ export function Categories({ categories }: Props) {
       <ul className="categories-container__list">
         {categories.map((category) => (
           <li key={category.id} className="category-list">
-            <a href={`/categories/${category.id}`}>{category.name}</a>
+            <Link to={`/categories/${category.id}`}>{category.name}</Link>
           </li>
         ))}
       </ul>

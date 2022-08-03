@@ -55,6 +55,10 @@ function App() {
               element={<ProductsByCat products={products} />}
             />
             <Route
+              path="/categories/:categoryId/:productId"
+              element={<SingleProductPage addToBasket={addToBasket} />}
+            />
+            <Route
               path="/categories"
               element={<Categories categories={categories} />}
             />

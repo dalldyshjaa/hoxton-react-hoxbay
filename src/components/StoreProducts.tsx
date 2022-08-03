@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Product } from "../App";
 
 type Props = {
@@ -7,12 +8,12 @@ type Props = {
 export function StoreProduct({ product }: Props) {
   return (
     <li>
-      <a href={`products/${product.id}`}>
+      <Link to={`${product.id}`}>
         <article className="product-item">
           <img src={product.image} alt={product.title} />
           <h3>{product.title}</h3>
         </article>
-      </a>
+      </Link>
     </li>
   );
 }

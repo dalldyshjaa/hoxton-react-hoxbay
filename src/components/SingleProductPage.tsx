@@ -7,40 +7,32 @@ type Props = {
 };
 
 export function SingleProductPage({ addToBasket }: Props) {
-  const [product, setProduct] = useState<Product | null>(null);
+  const [product, setProduct] = useState<Product | null | undefined>(undefined);
   const param = useParams();
-
-  function a() {
-    console.log("a");
-  }
 
   useEffect(() => {
     fetch(`http://localhost:4000/products/${param.productId}`)
       .then((resp) => resp.json())
       .then((product: Product) => setProduct(product));
   }, []);
+  if (!product) return null;
+  return (
+    <section className="product-detail main-wrapper">
+      <img src={product.image} alt={product.title} />
+      <div className="product-detail__side">
+        <h3></h3>
+        <h2>{product.title}</h2>
+        <p>{product.description}</p>
+        <p>${product.price.toFixed(2)}</p>
 
-  if (product === null) return <h1>Loading...</h1>;
-
-  if (product !== null)
-    return (
-      <section className="product-detail main-wrapper">
-        <img src={product.image} alt={product.title} />
-        <div className="product-detail__side">
-          <h3></h3>
-          <h2>{product.title}</h2>
-          <p>{product.description}</p>
-          <p>${product.price.toFixed(2)}</p>
-
-          <button
-            onClick={() => {
-              addToBasket(product);
-              <Navigate to="/basket" />;
-            }}
-          >
-            Add to basket
-          </button>
-        </div>
-      </section>
-    );
+        <button
+          onClick={() => {
+            addToBasket(product);
+          }}
+        >
+          Add to basket
+        </button>
+      </div>
+    </section>
+  );
 }

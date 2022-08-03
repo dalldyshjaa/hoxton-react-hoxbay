@@ -12,12 +12,7 @@ export function Basket({ onBasket }: Props) {
       <h2>Your Basket</h2>
       <ul>
         {onBasket.map((basketProduct) => (
-          <BasketProduct
-            basketProduct={basketProduct}
-            key={basketProduct.id}
-            setTotal={setTotal}
-            total={total}
-          />
+          <BasketProduct basketProduct={basketProduct} key={basketProduct.id} />
         ))}
       </ul>
       <h3>Your total: {`$${total.toFixed(2)}`}</h3>
