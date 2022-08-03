@@ -6,6 +6,7 @@ import { Home } from "./components/Home";
 import { useEffect, useState } from "react";
 import { StoreProduct } from "./components/StoreProducts";
 import { SingleProductPage } from "./components/SingleProductPage";
+import { ProductsByCat } from "./components/ProductsByCat";
 
 export type Product = {
   id: number;
@@ -21,8 +22,13 @@ export type Category = {
 };
 
 function App() {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [onBasket, setOnBasket] = useState<Product[]>([]);
+
+  function addToBasket(product: Product) {
+    setOnBasket([...onBasket, product]);
+  }
 
   useEffect(() => {
     fetch("http://localhost:4000/products")
@@ -42,13 +48,17 @@ function App() {
             <Route path="/products" element={<Home products={products} />} />
             <Route
               path="/products/:productId"
-              element={<SingleProductPage />}
+              element={<SingleProductPage addToBasket={addToBasket} />}
+            />
+            <Route
+              path="/categories/:categoryId"
+              element={<ProductsByCat products={products} />}
             />
             <Route
               path="/categories"
               element={<Categories categories={categories} />}
             />
-            <Route path="/basket" element={<Basket />} />
+            <Route path="/basket" element={<Basket onBasket={onBasket} />} />
           </Routes>
         }
       </main>

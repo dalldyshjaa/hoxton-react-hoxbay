@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { Product } from "../App";
 
-export function SingleProductPage() {
+type Props = {
+  addToBasket: Function;
+};
+
+export function SingleProductPage({ addToBasket }: Props) {
   const [product, setProduct] = useState<Product | null>(null);
   const param = useParams();
+
+  function a() {
+    console.log("a");
+  }
 
   useEffect(() => {
     fetch(`http://localhost:4000/products/${param.productId}`)
@@ -23,7 +31,15 @@ export function SingleProductPage() {
           <h2>{product.title}</h2>
           <p>{product.description}</p>
           <p>${product.price.toFixed(2)}</p>
-          <button>Add to basket</button>
+
+          <button
+            onClick={() => {
+              addToBasket(product);
+              <Navigate to="/basket" />;
+            }}
+          >
+            Add to basket
+          </button>
         </div>
       </section>
     );

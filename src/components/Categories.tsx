@@ -9,7 +9,7 @@ export function Categories({ categories }: Props) {
     <section className="categories-container main-wrapper">
       <ul className="categories-container__list">
         {categories.map((category) => (
-          <li key={category.id}>
+          <li key={category.id} className="category-list">
             <a href={`/categories/${category.id}`}>{category.name}</a>
           </li>
         ))}
