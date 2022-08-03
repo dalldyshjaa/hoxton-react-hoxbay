@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useParams, useNavigate } from "react-router-dom";
 import { Product } from "../App";
 
 type Props = {
@@ -9,6 +9,7 @@ type Props = {
 export function SingleProductPage({ addToBasket }: Props) {
   const [product, setProduct] = useState<Product | null | undefined>(undefined);
   const param = useParams();
+  let navigate = useNavigate();
 
   useEffect(() => {
     fetch(`http://localhost:4000/products/${param.productId}`)
@@ -28,6 +29,7 @@ export function SingleProductPage({ addToBasket }: Props) {
         <button
           onClick={() => {
             addToBasket(product);
+            navigate("/basket");
           }}
         >
           Add to basket

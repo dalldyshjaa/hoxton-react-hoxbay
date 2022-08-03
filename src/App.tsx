@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { StoreProduct } from "./components/StoreProducts";
 import { SingleProductPage } from "./components/SingleProductPage";
 import { ProductsByCat } from "./components/ProductsByCat";
+import { SearchedProducts } from "./components/SearchedProducts";
 
 export type Product = {
   id: number;
@@ -117,6 +118,14 @@ function App() {
               element={
                 <Basket onBasket={onBasket} updateBasket={updateBasket} />
               }
+            />
+            <Route
+              path="/search-products/:search"
+              element={<SearchedProducts products={products} />}
+            />
+            <Route
+              path="/search-products/:search/:productId"
+              element={<SingleProductPage addToBasket={addToBasket} />}
             />
           </Routes>
         }

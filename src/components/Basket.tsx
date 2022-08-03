@@ -8,6 +8,7 @@ type Props = {
 
 export function Basket({ onBasket, updateBasket }: Props) {
   const [total, setTotal] = useState(0);
+  let tot = structuredClone(total);
   function updateTotal(number: number) {
     setTotal(number);
   }
